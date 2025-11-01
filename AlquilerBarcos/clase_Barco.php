@@ -2,7 +2,7 @@
 
 /**
  * Clase abstracta que representa un Barco genérico.
- * Contiene los atributos y métodos comunes a todos los tipos de barcos.
+ * Contiene los atributos y métodos comunes a todos los tipos de barcos. comentarios agregados para visualizar los cambios en github.
  */
 abstract class Barco
 {
