@@ -11,7 +11,7 @@ class Paciente
     private $dni;
     private $obra_social;
 
-    public function __construct(Medoo $bd, $id, $nombre, $apellido, $dni, $obra_social)
+    public function __construct($bd, $id, $nombre, $apellido, $dni, $obra_social)
     {
         $this->bd = $bd;
         $this->id = $id;
@@ -30,4 +30,19 @@ class Paciente
             'obrasocial' => $this->obra_social
         ]);
     }
+
+    public function actualizar($idpaciente)
+    {
+        $this->bd->update('pacientes', [
+            'dni' => $this->dni,
+            'nombre' => $this->nombre,
+            'apellido' => $this->apellido,
+            'obrasocial' => $this->obra_social
+        ], [
+            'idpaciente' => $idpaciente
+        ]);
+    }
+
+    
 }
+

@@ -8,11 +8,12 @@ class Medico
     private $id;
     private $nombre;
     private $apellido;
+    private $matricula;
     private $especialidad;
 
 // 1. El constructor es el "proceso de bienvenida" de un nuevo objeto Medico.
 // El primer parámetro "Medoo $bd" OBLIGA a que quien cree un Medico, le pase un traductor Medoo.
-    public function __construct(Medoo $bd, $id, $nombre, $apellido, $especialidad)
+    public function __construct($bd, $id, $nombre, $apellido, $matricula, $especialidad)
     {
         $this->bd = $bd;
 // 2. El objeto Medico toma el traductor que le pasaron ($bd) y lo guarda en su "bolsillo"
@@ -20,6 +21,7 @@ class Medico
         $this->id = $id;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
+        $this->matricula = $matricula;
         $this->especialidad = $especialidad;
     }
 
@@ -33,6 +35,8 @@ class Medico
             'nombre' => $this->nombre,
 // "Quiero que en la columna 'apellido' de la BD, pongas el valor de mi propiedad $this->apellido".
             'apellido' => $this->apellido,
+// "Quiero que en la columna 'matricula' de la BD, pongas el valor de mi propiedad $this->matricula".
+            'matricula' => $this->matricula,
 // "Quiero que en la columna 'especialidad' de la BD, pongas el valor de mi propiedad $this->especialidad".
             'especialidad' => $this->especialidad
         ]);

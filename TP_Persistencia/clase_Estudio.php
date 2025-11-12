@@ -11,7 +11,7 @@ class Estudio
     private $id_medico;
     private $id_paciente;
 
-    public function __construct(Medoo $bd, $id, $nombre_estudio, $observaciones, $id_medico, $id_paciente)
+    public function __construct($bd, $id, $nombre_estudio, $observaciones, $id_medico, $id_paciente)
     {
         $this->bd = $bd;
         $this->id = $id;
