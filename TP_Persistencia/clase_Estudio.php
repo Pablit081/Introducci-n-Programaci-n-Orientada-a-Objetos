@@ -1,4 +1,5 @@
 <?php
+// Inciso 3_Definición de la clase_Estudio.php
 
 use Medoo\Medoo;
 

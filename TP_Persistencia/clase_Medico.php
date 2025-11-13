@@ -1,4 +1,5 @@
 <?php
+// Inciso 3_Definición de la clase_Medico.php
 
 use Medoo\Medoo;
 
@@ -12,7 +13,7 @@ class Medico
     private $especialidad;
 
 // 1. El constructor es el "proceso de bienvenida" de un nuevo objeto Medico.
-// El primer parámetro "Medoo $bd" OBLIGA a que quien cree un Medico, le pase un traductor Medoo.
+// El primer parámetro "$bd" OBLIGA a que quien cree un Medico, le pase un traductor Medoo.
     public function __construct($bd, $id, $nombre, $apellido, $matricula, $especialidad)
     {
         $this->bd = $bd;
@@ -26,10 +27,10 @@ class Medico
     }
 
     public function guardar()
-    { // 1. El objeto Medico saca al traductor de su bolsillo: "$this->bd".
-// 2. Le da una orden clara usando el método "insert()": "¡Inserta datos!".
-// 3. El primer parámetro, 'medicos', le dice al traductor: "La tabla se llama 'medicos'".
-// 4. El segundo parámetro es un array. Es el mensaje en español que el traductor debe convertir a SQL:
+    {   // 1. El objeto Medico saca al traductor de su bolsillo: "$this->bd".
+        // 2. Le da una orden clara usando el método "insert()": "¡Inserta datos!".
+        // 3. El primer parámetro, 'medicos', le dice al traductor: "La tabla se llama 'medicos'".
+        // 4. El segundo parámetro es un array. Es el mensaje en español que el traductor debe convertir a SQL:
         $this->bd->insert('medicos', [
 // "Quiero que en la columna 'nombre' de la BD, pongas el valor de mi propiedad $this->nombre".
             'nombre' => $this->nombre,
