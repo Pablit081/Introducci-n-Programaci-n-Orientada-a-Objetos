@@ -1690,7 +1690,7 @@ class Medoo
             $currentStack = [];
 
             if (isset($callback)) {
-                $this->dataMap($data, $columns ?? [], $columnMap,$currentStack, true);
+                $this->dataMap($data, $columns ?? [], $columnMap, $currentStack, true);
 
                 $callback(
                     $isSingle ?
