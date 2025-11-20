@@ -4,7 +4,7 @@ require_once 'clase_Animal.php'; // Incluimos la clase Animal para usarla en la 
 
 class Persona 
 {
-    private $id;
+    private $idPersona;
     private $nombrePersona;
     private $dniPersona;
     private $telefono;
@@ -23,8 +23,8 @@ class Persona
 
     // --- Getters y Setters ---
     
-    public function getId() { return $this->id; }
-    public function setId($id) { $this->id = $id; }
+    public function getId() { return $this->idPersona; }
+    public function setId($idPersona) { $this->idPersona = $idPersona; }
 
     public function getNombrePersona() { return $this->nombrePersona; }
     public function setNombrePersona($nombrePersona) { $this->nombrePersona = $nombrePersona; }
