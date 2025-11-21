@@ -10,7 +10,7 @@ class Persona
     private $telefono;
     private $cantidadAnimalesAdoptados;
     //Atributo para guardar la "colección" que pide el método getAnimales()
-    private $animales = []; 
+    private $animalesAdoptados = []; 
 
     // --- Constructor ---
     // Inicializamos los datos básicos y forzamos que la cantidad arranque en 0
@@ -39,15 +39,15 @@ class Persona
 
     // --- Métodos Específicos ---
 
-    public function getAnimales(): array // Devuelve la colección (array) de objetos Animal que esta persona adoptó.
+    public function getAnimalesAdoptados(): array // Devuelve la colección (array) de objetos Animal que esta persona adoptó.
     {
-        return $this->animales;
+        return $this->animalesAdoptados;
     }
 
 // Método para agregar un animal a la colección y actualiza el contador automáticamente.
     public function adoptarAnimal(Animal $animal) // Método para agregar un animal a la colección y actualiza el contador automáticamente.
     {
-        $this->animales[] = $animal; // Agrega al array
+        $this->animalesAdoptados[] = $animal; // Agrega al array
         $this->cantidadAnimalesAdoptados++; // Aumenta el contador
     }
 }
