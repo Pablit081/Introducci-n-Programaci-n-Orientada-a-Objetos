@@ -1,6 +1,6 @@
 <?php
 
-require_once 'clase_Animal.php'; //incluye a la clase padre Animal
+require_once 'clase_Animal.php'; // Incluimos la clase Animal (clase padre) para usarla en la colección
 
 class Perro extends Animal //Definimos la clase hija Perro que hereda de la clase padre Animal
 {
@@ -15,7 +15,7 @@ class Perro extends Animal //Definimos la clase hija Perro que hereda de la clas
         $this->sabeObediencia = $sabeObediencia;
         $this->antecedentesAgresion = $antecedentesAgresion;
     }
- 
+
     public function getCaracteristicasEspecificas():string //Definimos el método getCaracteristicasEspecificas
     {
         $obediencia = $this->sabeObediencia ? 'Sí' : 'No';
