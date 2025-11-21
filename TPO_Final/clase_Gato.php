@@ -1,6 +1,6 @@
 <?php
 
-require_once 'clase_Animal.php'; //incluye a la clase padre Animal
+require_once 'clase_Animal.php'; // Incluimos la clase Animal (clase padre) para usarla en la colección
 
 class Gato extends Animal //Definimos la clase hija Gato que hereda de la clase padre Animal
 {
