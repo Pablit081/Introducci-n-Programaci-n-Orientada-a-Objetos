@@ -13,7 +13,7 @@ use \Medoo\Medoo;
 // 3. ¡Aquí ocurre la magia! Creamos el objeto Medoo.
 $database = new \Medoo\Medoo([ // "new Medoo" es como decir "Contratar un nuevo traductor".
     'database_type' => 'mysql',
-    'database_name' => 'bdclinica',
+    'database_name' => 'bdpatitasfelices',
     'server' => 'localhost',
     'username' => 'pabloadmin',
     'password' => 'Mari@2025'
