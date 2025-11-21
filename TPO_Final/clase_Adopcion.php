@@ -16,7 +16,7 @@ Llama a $miPersona->adoptarAnimal($miPerro) (que suma +1 al contador).
 
 require_once 'clase_Animal.php'; // Incluimos la clase Animal para usarla en la colección
 require_once 'clase_Persona.php'; // Incluimos la clase  para usarla en la colección
-use Exception; //Capturamos los errores con la clase Exception
+
 
 class Adopcion {
 
