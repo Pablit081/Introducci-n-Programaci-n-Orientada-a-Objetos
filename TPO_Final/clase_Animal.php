@@ -31,7 +31,8 @@ abstract public function getCaracteristicasEspecificas(): string; //Definimos el
 
 public function esAdoptable(): bool {return true;} //Definimos el método esAdotable (siempre devuelve true)
 
-public function getEstado() {return $this->estado;} //Definimos el método getEstado
 public function setEstado($estado) {$this->estado = $estado;} //Definimos el método setEstado
+
+public function getEstado() {return $this->estado;} //Definimos el método getEstado
 
 }
