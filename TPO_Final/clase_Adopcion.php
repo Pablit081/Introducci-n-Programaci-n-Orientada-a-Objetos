@@ -1,21 +1,15 @@
 <?php
 /* El usuario intenta crear una new Adopcion($miPerro, $miPersona).
-
-El Constructor de Adopcion pregunta: ¿$miPerro->esAdoptable?.
-
-Si el perro mordió a alguien (devuelve false), la adopción falla y tira error.
-
-Si es true:
-
-Guarda los IDs.
-
-Llama a $miPerro->setEstado('adoptado').
-
-Llama a $miPersona->adoptarAnimal($miPerro) (que suma +1 al contador).
+/* El Constructor de Adopcion pregunta: ¿$miPerro->esAdoptable?.
+/* Si el perro mordió a alguien (devuelve false), la adopción falla y tira error.
+/* Si es true:
+/* Guarda los IDs.
+/* Llama a $miPerro->setEstado('adoptado').
+/* Llama a $miPersona->adoptarAnimal($miPerro) (que suma +1 al contador).
 */
 
 require_once 'clase_Animal.php'; // Incluimos la clase Animal para usarla en la colección
-require_once 'clase_Persona.php'; // Incluimos la clase  para usarla en la colección
+require_once 'clase_Persona.php'; // Incluimos la clase Persona para usarla en la colección
 
 
 class Adopcion {
@@ -51,4 +45,10 @@ class Adopcion {
 
     public function getIdAnimal() { return $this->idAnimal; }
     public function setIdAnimal($idAnimal) { $this->idAnimal = $idAnimal; }
+
+    public function getIdPersona() { return $this->idPersona; }
+    public function setIdPersona($idPersona) { $this->idPersona = $idPersona; }
+    
+    public function getFechaAdopcion() { return $this->fechaAdopcion; }
+    
 }
