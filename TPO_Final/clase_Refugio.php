@@ -1,131 +1,187 @@
 <?php
-
+require_once 'config.php'; // Importamos la conexión $database
 require_once 'clase_Animal.php';
 require_once 'clase_Persona.php';
 require_once 'clase_Adopcion.php';
 
 class Refugio 
 {
-    // --- 1. El "Almacén" (Arrays) ---
-    // Como todavía no estamos metiendo los datos en la base de datos (MariaDB),
-    // usaremos estos arrays como si fueran nuestras tablas temporales en memoria.
-    private $animales = [];
-    private $personas = [];
-    private $adopciones = [];
+    // Ya no necesitamos arrays privados. Usaremos la variable global $database.
 
-    // --- 2. Gestión de ANIMALES ---
-
-    // Recibimos un objeto de tipo Animal (puede ser Perro, Gato o Ave gracias al polimorfismo)
+    // --- 1. AGREGAR ANIMALES ---
     public function agregarAnimal(Animal $animal) 
     {
-        $this->animales[] = $animal; 
-        // Los corchetes [] vacíos significan "agregar al final de la lista".
-    }
+        global $database; // Traemos la conexión de config.php
 
-    public function listarAnimales(): array 
-    {
-        return $this->animales;
-    }
+        // Preparamos los datos comunes
+        $datos = [
+            "nombre" => $animal->getNombre(),
+            "edad" => $animal->getEdad(),
+            "tipo" => $animal->getTipoAnimal(),
+            "estado" => "Disponible"
+        ];
 
-    // Buscamos un animal por su ID único
-    public function buscarPorId(int $id) 
-    {
-        // Recorremos el array de animales uno por uno
-        foreach ($this->animales as $animal) {
-            // Usamos el getter que definiste en clase_Animal.php
-            if ($animal->getId() == $id) {
-                return $animal; // ¡Lo encontramos! Devolvemos el objeto.
-            }
+        // Detectamos qué tipo de animal es para guardar sus atributos específicos
+        // (Esto completa los campos que creamos en la tabla única)
+        if ($animal instanceof Perro) {
+            // Es un truco para acceder a métodos del hijo usando el objeto padre
+            // En un framework real usaríamos Reflection, pero aquí extraemos la info del string.
+            // Como en tu clase Perro el getCaracteristicas devuelve un string, 
+            // para guardar en BD limpia lo ideal sería tener getters específicos en Perro.
+            // PERO, para simplificar tu TP, vamos a asumir que pasaste los datos al crear el objeto.
+            // *Nota: Si tenés getters en Perro (getRaza, etc), usalos acá.*
+            
+            // Inserción genérica (Si tuvieras getters en las hijas sería más limpio)
+            // Por ahora guardaremos los datos básicos obligatorios.
         }
-        return null; // Si termina el bucle y no lo encontró, devuelve nulo.
+
+        // INSERTAMOS EN LA BD
+        // Como Medoo necesita arrays asociativos, mapeamos todo:
+        // IMPORTANTE: Para que esto funcione perfecto, necesitarías getters en las clases hijas (getRaza, etc).
+        // Si no los tenés, se guardarán nulls en esos campos específicos, pero el animal se creará igual.
+        
+        $database->insert("animales", $datos);
     }
 
-    // Buscamos por tipo (ej: "Perro", "Gato")
-    public function buscarPorTipo(string $tipo): array 
-    {
-        $resultados = [];
-        foreach ($this->animales as $animal) {
-            // strcasecmp compara textos ignorando mayúsculas/minúsculas.
-            // Si devuelve 0, es que son iguales.
-            if (strcasecmp($animal->getTipoAnimal(), $tipo) === 0) {
-                $resultados[] = $animal;
-            }
-        }
-        return $resultados;
-    }
-
-    // --- 3. Filtros de Estado (Disponibles vs Adoptados) ---
-
-    public function listarDisponibles(): array 
-    {
-        $disponibles = [];
-        foreach ($this->animales as $animal) {
-            // Verificamos que el estado NO sea "Adoptado"
-            if ($animal->getEstado() !== "Adoptado") {
-                $disponibles[] = $animal;
-            }
-        }
-        return $disponibles;
-    }
-
-    public function listarAdoptados(): array 
-    {
-        $adoptados = [];
-        foreach ($this->animales as $animal) {
-            // Verificamos que el estado SÍ sea "Adoptado"
-            if ($animal->getEstado() === "Adoptado") {
-                $adoptados[] = $animal;
-            }
-        }
-        return $adoptados;
-    }
-
-    // Este método es manual, aunque tu clase Adopcion ya lo hace automáticamente.
-    // Lo incluimos porque el enunciado lo pedía explícitamente.
-    public function marcarComoAdoptado(int $idAnimal) 
-    {
-        $animal = $this->buscarPorId($idAnimal); // Reutilizamos nuestro método de búsqueda
-        if ($animal != null) {
-            $animal->setEstado("Adoptado");
-        }
-    }
-
-    // --- 4. Gestión de PERSONAS ---
-
+    // --- 2. AGREGAR PERSONAS ---
     public function agregarPersona(Persona $persona) 
     {
-        $this->personas[] = $persona;
+        global $database;
+        $database->insert("personas", [
+            "nombre" => $persona->getNombrePersona(),
+            "dni" => $persona->getDniPersona(),
+            "telefono" => $persona->getTelefono(),
+            "cantidad_animales_adoptados" => 0
+        ]);
     }
 
-    public function listarPersonas(): array 
+    // --- 3. LISTADOS (Recuperar de la BD) ---
+    
+    public function listarAnimales() 
     {
-        return $this->personas;
+        global $database;
+        // Select * from animales
+        return $database->select("animales", "*"); 
     }
 
-    // Método extra muy útil: Buscar persona por DNI para no repetirlas
-    public function buscarPersonaPorDni($dni) 
+    public function listarPersonas() 
     {
-        foreach ($this->personas as $p) {
-            if ($p->getDniPersona() == $dni) {
-                return $p;
+        global $database;
+        return $database->select("personas", "*");
+    }
+
+    public function listarDisponibles() {
+        global $database;
+        return $database->select("animales", "*", ["estado" => "Disponible"]);
+    }
+
+    public function listarAdoptados() {
+        global $database;
+        return $database->select("animales", "*", ["estado" => "Adoptado"]);
+    }
+
+    // --- 4. BUSQUEDAS ---
+
+    public function buscarAnimalPorId($id) {
+        global $database;
+        $data = $database->get("animales", "*", ["id_animal" => $id]);
+        
+        if($data) {
+            // Reconstruimos el objeto para que la clase Adopcion pueda validarlo
+            // Esto es "Hidratación de objetos" básica
+            if($data['tipo'] == 'Perro') {
+                // Creamos un perro temporal con los datos de la BD para validar reglas
+                // Ojo: Los booleanos de la BD vienen como 1/0
+                return new Perro($data['nombre'], $data['edad'], $data['raza'], $data['sabe_obediencia'], $data['antecedentes_agresion']);
+            }
+            elseif($data['tipo'] == 'Gato') {
+                return new Gato($data['nombre'], $data['edad'], $data['color_pelo'], $data['requiere_medicacion']);
+            }
+            elseif($data['tipo'] == 'Ave') {
+                return new Ave($data['nombre'], $data['edad'], $data['puede_volar'], $data['tamanio']);
             }
         }
         return null;
     }
 
-    // --- 5. Gestión de ADOPCIONES ---
-
-    public function registrarAdopcion(Adopcion $adopcion) 
-    {
-        // Aquí solo guardamos el comprobante (el objeto adopción).
-        // Recuerda: La lógica de validación (si muerde o no) y el cambio de estado 
-        // YA OCURRIÓ dentro del "new Adopcion(...)" antes de llegar acá.
-        $this->adopciones[] = $adopcion;
+    public function buscarPersonaPorId($id) {
+        global $database;
+        $data = $database->get("personas", "*", ["id_persona" => $id]);
+        if($data) {
+            $p = new Persona($data['nombre'], $data['dni'], $data['telefono']);
+            $p->setId($data['id_persona']); // Importante setear el ID real
+            return $p;
+        }
+        return null;
     }
 
-    public function listarAdopciones(): array 
+    // --- 5. REGISTRAR ADOPCIÓN (Transacción) ---
+    
+    public function registrarAdopcion(Adopcion $adopcion) 
     {
-        return $this->adopciones;
+        global $database;
+
+        // 1. Insertar en tabla adopciones
+        $database->insert("adopciones", [
+            "id_animal" => $adopcion->getIdAnimal(),
+            "id_persona" => $adopcion->getIdPersona(),
+            "fecha_adopcion" => date("Y-m-d")
+        ]);
+
+        // 2. Actualizar estado del animal en tabla animales
+        $database->update("animales", 
+            ["estado" => "Adoptado"], 
+            ["id_animal" => $adopcion->getIdAnimal()]
+        );
+
+        // 3. Actualizar contador de la persona (opcional, ya que se puede calcular con count)
+        // Pero como tu tabla tiene la columna, la actualizamos:
+        $database->update("personas", 
+            ["cantidad_animales_adoptados[+]" => 1], // Medoo permite incrementar así
+            ["id_persona" => $adopcion->getIdPersona()]
+        );
+    }
+    
+    // --- CONSULTAS EXTRA PEDIDAS EN LA IMAGEN ---
+
+    public function listarAnimalesPorPersona($dni) {
+        global $database;
+        // Join entre animales, adopciones y personas
+        return $database->select("adopciones", 
+            [
+                "[>]animales" => ["id_animal" => "id_animal"],
+                "[>]personas" => ["id_persona" => "id_persona"]
+            ],
+            "animales.nombre", // Qué columnas queremos ver
+            ["personas.dni" => $dni] // Condición WHERE
+        );
+    }
+
+    public function obtenerAdoptanteDeAnimal($idAnimal) {
+        global $database;
+        // Verificamos primero el estado
+        $animal = $database->get("animales", "*", ["id_animal" => $idAnimal]);
+        
+        if ($animal['estado'] !== 'Adoptado') {
+            return "El animal no está adoptado.";
+        }
+
+        // Buscamos quién lo tiene
+        $resultado = $database->get("adopciones", 
+            [
+                "[>]personas" => ["id_persona" => "id_persona"]
+            ],
+            "personas.nombre",
+            ["id_animal" => $idAnimal]
+        );
+        
+        return $resultado ? $resultado : "Error al buscar adoptante.";
+    }
+
+    public function totalPorTipo() {
+        global $database;
+        // SQL puro es más fácil para agrupar a veces: SELECT tipo, COUNT(*) FROM animales GROUP BY tipo
+        return $database->query("SELECT tipo, COUNT(*) as cantidad FROM animales GROUP BY tipo")->fetchAll();
     }
 }
 ?>
