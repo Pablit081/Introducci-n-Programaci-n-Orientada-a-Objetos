@@ -44,11 +44,21 @@ class Refugio
     }
 
     // --- 2. AGREGAR PERSONAS ---
+    
+    // Verifica si un DNI ya existe en la base de datos
+    public function verificarDNI($dni) 
+    {
+        global $database;
+        return $database->has("personas", ["dni" => $dni]);
+    }
+
+    // Agrega una persona a la base de datos
     public function agregarPersona(Persona $persona) 
     {
         global $database;
         $database->insert("personas", [
             "nombre" => $persona->getNombrePersona(),
+            "apellido" => $persona->getApellidoPersona(),
             "dni" => $persona->getDniPersona(),
             "telefono" => $persona->getTelefono(),
             "cantidad_animales_adoptados" => 0
