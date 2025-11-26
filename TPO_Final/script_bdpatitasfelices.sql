@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS personas (
     id_persona INT AUTO_INCREMENT PRIMARY KEY,
     
     nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
     
     -- DNI UNIQUE: Evita que carguemos dos veces a la misma persona real.
     dni VARCHAR(20) UNIQUE NOT NULL,
