@@ -6,6 +6,7 @@ class Persona
 {
     private $idPersona;
     private $nombrePersona;
+    private $apellidoPersona;
     private $dniPersona;
     private $telefono;
     private $cantidadAnimalesAdoptados;
@@ -14,8 +15,9 @@ class Persona
 
     // --- Constructor ---
     // Inicializamos los datos básicos y forzamos que la cantidad arranque en 0
-    public function __construct($nombrePersona, $dniPersona, $telefono) {
+    public function __construct($nombrePersona, $apellidoPersona, $dniPersona, $telefono) {
         $this->nombrePersona = $nombrePersona;
+        $this->apellidoPersona = $apellidoPersona;
         $this->dniPersona = $dniPersona;
         $this->telefono = $telefono;
         $this->cantidadAnimalesAdoptados = 0; 
@@ -28,6 +30,9 @@ class Persona
 
     public function getNombrePersona() { return $this->nombrePersona; }
     public function setNombrePersona($nombrePersona) { $this->nombrePersona = $nombrePersona; }
+
+    public function getApellidoPersona() { return $this->apellidoPersona; }
+    public function setApellidoPersona($apellidoPersona) { $this->apellidoPersona = $apellidoPersona; }
 
     public function getDniPersona() { return $this->dniPersona; }
     public function setDniPersona($dniPersona) { $this->dniPersona = $dniPersona; }
