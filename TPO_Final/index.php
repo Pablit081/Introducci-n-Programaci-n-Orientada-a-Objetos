@@ -7,19 +7,22 @@ require_once 'clase_Gato.php';
 require_once 'clase_Ave.php';
 require_once 'clase_Persona.php';
 require_once 'clase_Adopcion.php';
+require_once 'agregar_Animal.php';
+require_once 'funciones.php';
+require_once 'agregarPersona.php';
 
 // 1. Instanciar el Refugio
 $refugio = new Refugio();
 
 // Función auxiliar para limpiar la pantalla (opcional)
-function limpiar() {
-    // system('clear'); // En Linux/Mac
-    // system('cls'); // En Windows
+function limpiar() 
+{
     echo "\n-------------------------------------------------\n";
 }
 
 // Bucle infinito del menú
-while (true) {
+while (true)
+{
     limpiar();
     echo "=== 🐾 SISTEMA DE GESTIÓN: REFUGIO PATITAS FELICES 🐾 ===\n";
     echo "1. Agregar Animal (Perro, Gato o Ave)\n";
@@ -40,50 +43,14 @@ while (true) {
 
     switch ($opcion) {
         case '1': // AGREGAR ANIMAL
-            echo "\n¿Qué tipo de animal? (1-Perro, 2-Gato, 3-Ave): ";
-            $tipo = trim(fgets(STDIN));
-            echo "Nombre: "; $nom = trim(fgets(STDIN));
-            echo "Edad: "; $edad = trim(fgets(STDIN));
-
-            if ($tipo == '1') { // Perro
-                echo "Raza: "; $raza = trim(fgets(STDIN));
-                // Simplificamos booleanos con (s/n)
-                echo "¿Sabe obediencia? (s/n): "; $obe = (trim(fgets(STDIN)) == 's');
-                echo "¿Es agresivo? (s/n): "; $agr = (trim(fgets(STDIN)) == 's');
-                
-                $nuevoAnimal = new Perro($nom, $edad, $raza, $obe, $agr);
-                $refugio->agregarAnimal($nuevoAnimal);
-                echo "✅ ¡Perro agregado con éxito!\n";
-
-            } elseif ($tipo == '2') { // Gato
-                echo "Color de Pelo: "; $color = trim(fgets(STDIN));
-                echo "¿Requiere medicación? (s/n): "; $med = (trim(fgets(STDIN)) == 's');
-                
-                $nuevoAnimal = new Gato($nom, $edad, $color, $med);
-                $refugio->agregarAnimal($nuevoAnimal);
-                echo "✅ ¡Gato agregado con éxito!\n";
-            
-            } elseif ($tipo == '3') { // Ave
-                echo "¿Puede volar? (s/n): "; $vuela = (trim(fgets(STDIN)) == 's');
-                echo "Tamaño (Pequeño/Grande): "; $tam = trim(fgets(STDIN));
-                
-                $nuevoAnimal = new Ave($nom, $edad, $vuela, $tam);
-                $refugio->agregarAnimal($nuevoAnimal);
-                echo "✅ ¡Ave agregada con éxito!\n";
-            }
+            agregar_Animal($refugio);
             break;
 
         case '2': // AGREGAR PERSONA
-            echo "Nombre completo: "; $nom = trim(fgets(STDIN));
-            echo "DNI: "; $dni = trim(fgets(STDIN));
-            echo "Teléfono: "; $tel = trim(fgets(STDIN));
-            
-            $nuevaPersona = new Persona($nom, $dni, $tel);
-            $refugio->agregarPersona($nuevaPersona);
-            echo "✅ ¡Persona registrada con éxito!\n";
+            agregarPersona($refugio);
             break;
 
-        case '3': // LISTAR TODOS ANIMALES
+        /*case '3': // LISTAR TODOS ANIMALES
             echo "\n--- LISTADO COMPLETO DE ANIMALES ---\n";
             $lista = $refugio->listarAnimales();
             foreach ($lista as $a) {
@@ -175,7 +142,7 @@ while (true) {
                 echo $fila['tipo'] . ": " . $fila['cantidad'] . "\n";
             }
             break;
-
+*/
         case '0':
             echo "¡Hasta luego! 👋\n";
             exit;
