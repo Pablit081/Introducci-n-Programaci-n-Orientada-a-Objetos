@@ -36,9 +36,9 @@ CREATE TABLE IF NOT EXISTS personas (
     apellido VARCHAR(100) NOT NULL,
     
     -- DNI UNIQUE: Evita que carguemos dos veces a la misma persona real.
-    dni VARCHAR(20) UNIQUE NOT NULL,
+    dni INT UNIQUE NOT NULL,
     
-    telefono VARCHAR(50),
+    telefono BIGINT,
     cantidad_animales_adoptados INT DEFAULT 0
 );
 
