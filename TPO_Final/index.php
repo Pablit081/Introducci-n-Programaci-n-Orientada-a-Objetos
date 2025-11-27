@@ -7,9 +7,11 @@ require_once 'clase_Gato.php';
 require_once 'clase_Ave.php';
 require_once 'clase_Persona.php';
 require_once 'clase_Adopcion.php';
-require_once 'agregar_Animal.php';
 require_once 'funciones.php';
-require_once 'agregarPersona.php';
+require_once 'agregar_Animal.php';
+require_once 'agregar_Persona.php';
+require_once 'listar_Animales.php';
+require_once 'listar_Personas.php';
 
 // 1. Instanciar el Refugio
 $refugio = new Refugio();
@@ -23,22 +25,9 @@ function limpiar()
 // Bucle infinito del menú
 while (true)
 {
-    limpiar();
-    echo "=== 🐾 SISTEMA DE GESTIÓN: REFUGIO PATITAS FELICES 🐾 ===\n";
-    echo "1. Agregar Animal (Perro, Gato o Ave)\n";
-    echo "2. Agregar Persona\n";
-    echo "3. Listar TODOS los animales\n";
-    echo "4. Listar todas las personas\n";
-    echo "5. Registrar una ADOPCIÓN ❤️\n";
-    echo "6. Mostrar Animales ADOPTADOS\n";
-    echo "7. Mostrar Animales DISPONIBLES\n";
-    echo "8. Ver animales adoptados por una persona (DNI)\n";
-    echo "9. Ver quién adoptó a un animal (ID Animal)\n";
-    echo "10. Ver Totales por Tipo de Animal\n";
-    echo "0. Salir\n";
-    echo "-------------------------------------------------\n";
+    mostrarMenu();
+
     echo "Ingrese una opción: ";
-    
     $opcion = trim(fgets(STDIN)); // Leemos lo que escribe el usuario
 
     switch ($opcion) {
@@ -50,23 +39,15 @@ while (true)
             agregarPersona($refugio);
             break;
 
-        /*case '3': // LISTAR TODOS ANIMALES
-            echo "\n--- LISTADO COMPLETO DE ANIMALES ---\n";
-            $lista = $refugio->listarAnimales();
-            foreach ($lista as $a) {
-                echo "[ID: " . $a['id_animal'] . "] " . $a['nombre'] . " (" . $a['tipo'] . ") - Estado: " . $a['estado'] . "\n";
-            }
+        case '3': // LISTAR TODOS ANIMALES
+            listarTodosLosAnimales($refugio);
+            break;
+        
+        case '4': // LISTAR TODAS LAS PERSONAS
+            listarTodasLasPersonas($refugio);
             break;
 
-        case '4': // LISTAR PERSONAS
-            echo "\n--- LISTADO DE PERSONAS ---\n";
-            $lista = $refugio->listarPersonas();
-            foreach ($lista as $p) {
-                echo "[ID: " . $p['id_persona'] . "] " . $p['nombre'] . " (DNI: " . $p['dni'] . ")\n";
-            }
-            break;
-
-        case '5': // REGISTRAR ADOPCIÓN
+        /*case '5': // REGISTRAR ADOPCIÓN
             echo "\n--- NUEVA ADOPCIÓN ---\n";
             echo "Ingrese el ID del Animal a adoptar: ";
             $idAnimal = trim(fgets(STDIN));
