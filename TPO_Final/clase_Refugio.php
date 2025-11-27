@@ -8,12 +8,12 @@ class Refugio
 {
     // Ya no necesitamos arrays privados. Usaremos la variable global $database.
 
-    // --- 1. AGREGAR ANIMALES ---
+    // --- 1. AGREGAR ANIMALES (CORREGIDO) ---
     public function agregarAnimal(Animal $animal) 
     {
-        global $database; // Traemos la conexión de config.php
+        global $database; 
 
-        // Preparamos los datos comunes
+        // 1. Preparamos los datos comunes (Base)
         $datos = [
             "nombre" => $animal->getNombre(),
             "edad" => $animal->getEdad(),
@@ -21,25 +21,23 @@ class Refugio
             "estado" => "Disponible"
         ];
 
-        // Detectamos qué tipo de animal es para guardar sus atributos específicos
-        // (Esto completa los campos que creamos en la tabla única)
+        // 2. Detectamos el tipo y agregamos los datos específicos al array
         if ($animal instanceof Perro) {
-            // Es un truco para acceder a métodos del hijo usando el objeto padre
-            // En un framework real usaríamos Reflection, pero aquí extraemos la info del string.
-            // Como en tu clase Perro el getCaracteristicas devuelve un string, 
-            // para guardar en BD limpia lo ideal sería tener getters específicos en Perro.
-            // PERO, para simplificar tu TP, vamos a asumir que pasaste los datos al crear el objeto.
-            // *Nota: Si tenés getters en Perro (getRaza, etc), usalos acá.*
-            
-            // Inserción genérica (Si tuvieras getters en las hijas sería más limpio)
-            // Por ahora guardaremos los datos básicos obligatorios.
+            $datos["raza"] = $animal->getRaza();
+            // Convertimos el booleano a 1 o 0 para la BD
+            $datos["sabe_obediencia"] = $animal->getSabeObediencia() ? 1 : 0;
+            $datos["antecedentes_agresion"] = $animal->getAntecedentesAgresion() ? 1 : 0;
+        } 
+        elseif ($animal instanceof Gato) {
+            $datos["color_pelo"] = $animal->getColorPelo();
+            $datos["requiere_medicacion"] = $animal->getRequiereMedicacion() ? 1 : 0;
+        } 
+        elseif ($animal instanceof Ave) {
+            $datos["puede_volar"] = $animal->getPuedeVolar() ? 1 : 0;
+            $datos["tamanio"] = $animal->getTamanio();
         }
 
-        // INSERTAMOS EN LA BD
-        // Como Medoo necesita arrays asociativos, mapeamos todo:
-        // IMPORTANTE: Para que esto funcione perfecto, necesitarías getters en las clases hijas (getRaza, etc).
-        // Si no los tenés, se guardarán nulls en esos campos específicos, pero el animal se creará igual.
-        
+        // 3. Insertamos el array completo en la base de datos
         $database->insert("animales", $datos);
     }
 
