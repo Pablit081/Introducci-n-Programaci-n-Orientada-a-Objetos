@@ -24,4 +24,8 @@ class Ave extends Animal //Definimos la clase hija Ave que hereda de la clase pa
     {
         return false; //Ningun ave es adoptable
     }
+
+    // --- GETTERS NECESARIOS PARA LA BD ---
+    public function getPuedeVolar() { return $this->puedeVolar; }
+    public function getTamanio() { return $this->tamanio; }
 }
