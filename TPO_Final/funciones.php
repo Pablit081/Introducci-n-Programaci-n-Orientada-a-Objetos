@@ -119,8 +119,29 @@ function pedirTelefono()
     return $telefono; // Devuelve el string limpio y validado
 }
 
+// Traduce el 1 y 0 de la base de datos a "Sí" y "No" visualmente.
+function traducirBooleano($valor) {
+    // Si el valor es 1 (true), devuelve "Sí". Si es 0 (false), devuelve "No".
+    return ($valor == 1) ? "Sí" : "No";
+}
 
-
-
-
+// Función que muestra el encabezado y el menu principal.
+function mostrarMenu() 
+{
+    system('clear'); // Función para limpiar pantalla.
+    echo "\n";
+    echo "=== 🐾 SISTEMA DE GESTIÓN: REFUGIO PATITAS FELICES 🐾 ===\n";
+    echo "1. Agregar Animal (🐶 Perro, 🐱 Gato o 🐦 Ave)\n";
+    echo "2. Agregar Persona\n";
+    echo "3. Listar TODOS los animales\n";
+    echo "4. Listar todas las personas\n";
+    echo "5. Registrar una ADOPCIÓN ❤️\n";
+    echo "6. Mostrar Animales ADOPTADOS\n";
+    echo "7. Mostrar Animales DISPONIBLES\n";
+    echo "8. Ver animales adoptados por una persona (DNI)\n";
+    echo "9. Ver quién adoptó a un animal (ID Animal)\n";
+    echo "10. Ver Totales por Tipo de Animal\n";
+    echo "0. Salir\n";
+    echo "-------------------------------------------------\n";
+}
 ?>
