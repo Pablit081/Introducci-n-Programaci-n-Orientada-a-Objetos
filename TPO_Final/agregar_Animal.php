@@ -1,9 +1,13 @@
 <?php
 require_once 'funciones.php';
 
-function agregar_Animal($refugio) {
-
-    $tipo = pedirOpcion("¿Qué tipo de animal?", ['1 = Perro', '2 = Gato', '3 = Ave']);
+function agregar_Animal($refugio) 
+{
+    echo "\n--- Seleccione la especie ---\n";
+    echo "1 = Perro 🐶\n";
+    echo "2 = Gato 🐱\n";
+    echo "3 = Ave 🐦\n";
+    $tipo = pedirOpcion("¿Qué tipo de animal?", ['1', '2', '3']);
 
     // Atributos comunes a todos los animales
     echo "Nombre: "; $nom = trim(fgets(STDIN));
@@ -29,7 +33,11 @@ function agregar_Animal($refugio) {
     
     } elseif ($tipo == '3') { // Ave
         $vuela = pedirConfirmacion("¿Puede volar?");
-        $tam = pedirOpcion("Tamaño (Pequeño/Mediano/Grande)", ['Pequeño', 'Mediano', 'Grande']);
+        echo "\n--- Seleccione el tamaño ---\n";
+        echo "P = Pequeño\n";
+        echo "M = Mediano\n";
+        echo "G = Grande\n";
+        $tam = pedirOpcion("Tamaño", ['P', 'M', 'G']);
         
         $nuevoAnimal = new Ave($nom, $edad, $vuela, $tam);
         $refugio->agregarAnimal($nuevoAnimal);
