@@ -31,4 +31,8 @@ class Perro extends Animal //Definimos la clase hija Perro que hereda de la clas
             return true;
         }
     }
+
+    public function getRaza() { return $this->raza; }
+    public function getSabeObediencia() { return $this->sabeObediencia; }
+    public function getAntecedentesAgresion() { return $this->antecedentesAgresion; }
 }

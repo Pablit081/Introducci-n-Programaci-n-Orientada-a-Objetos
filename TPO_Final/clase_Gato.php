@@ -24,4 +24,8 @@ class Gato extends Animal //Definimos la clase hija Gato que hereda de la clase 
     {
         return true; //Todos los gatos son adoptables
     }
+
+    // --- GETTERS NECESARIOS PARA LA BD ---
+    public function getColorPelo() { return $this->colorPelo; }
+    public function getRequiereMedicacion() { return $this->requiereMedicacion; }
 }
