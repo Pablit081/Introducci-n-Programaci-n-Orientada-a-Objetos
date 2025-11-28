@@ -4,7 +4,7 @@ require_once 'funciones.php'; // Usamos traducirBooleano
 
 function listarTodasLasPersonas($refugio)
 {
-    echo "\n--- LISTADO COMPLETO DE PERSONAS ---\n";
+    echo "\n--- 📋 LISTADO COMPLETO DE PERSONAS ---\n";
     
     // Pedimos los datos
     $lista = $refugio->listarPersonas();
@@ -19,9 +19,9 @@ function listarTodasLasPersonas($refugio)
     // Iteramos y mostramos bonito
     foreach ($lista as $p)
     {
-        echo "-------------------------------------------------\n";
+        echo "--------------------------------------------------------\n";
         echo "[ID: " . $p['id_persona'] . "] " . $p['nombre'] ." " . $p['apellido'] ." (DNI: " . $p['dni'] . ")\n";
         echo "  📞 Tel:" . $p['telefono'] . " | 🐾 Adoptados:" . $p['cantidad_animales_adoptados'] . "\n";
     }
-    echo "-------------------------------------------------\n";
+    echo "--------------------------------------------------------\n";
 }
