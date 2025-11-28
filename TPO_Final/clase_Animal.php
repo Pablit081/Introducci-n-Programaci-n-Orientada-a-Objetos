@@ -18,6 +18,7 @@ abstract class Animal //Definimos la clase padre abstracta Animal
 }
 
 public function getId() {return $this->idAnimal;} //Definimos el método getId
+public function setId($idAnimal) {$this->idAnimal = $idAnimal;} //Definimos el método setId
 public function getNombre() {return $this->nombre;} //Definimos el metodo getNombre
 
 
