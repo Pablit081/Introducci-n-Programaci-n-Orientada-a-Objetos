@@ -1,5 +1,4 @@
 <?php
-// agregar_Persona.php
 
 require_once 'clase_Persona.php';
 require_once 'funciones.php'; 
@@ -7,7 +6,7 @@ require_once 'funciones.php';
 function agregarPersona($refugio) {
     echo "\n--- REGISTRAR NUEVA PERSONA ---\n";
     
-    // Validar DNI (Formato y Existencia)
+    // Validamos DNI (Formato y Existencia)
     $dni = pedirDni(); // Función que valida números y largo 8
 
     // Ya existe DNI?
