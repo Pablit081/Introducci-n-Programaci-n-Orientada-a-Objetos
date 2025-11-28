@@ -92,21 +92,45 @@ class Refugio
 
     public function buscarAnimalPorId($id) {
         global $database;
+        // Buscamos en la BD por ID
         $data = $database->get("animales", "*", ["id_animal" => $id]);
         
         if($data) {
-            // Reconstruimos el objeto para que la clase Adopcion pueda validarlo
-            // Esto es "Hidratación de objetos" básica
+            $animal = null;
+
+            // 1. Reconstruimos el objeto según su tipo (Hidratación)
+            // Importante: Convertimos los 1/0 de la BD a true/false para el constructor
             if($data['tipo'] == 'Perro') {
-                // Creamos un perro temporal con los datos de la BD para validar reglas
-                // Ojo: Los booleanos de la BD vienen como 1/0
-                return new Perro($data['nombre'], $data['edad'], $data['raza'], $data['sabe_obediencia'], $data['antecedentes_agresion']);
+                $animal = new Perro(
+                    $data['nombre'], 
+                    $data['edad'], 
+                    $data['raza'], 
+                    $data['sabe_obediencia'] == 1, 
+                    $data['antecedentes_agresion'] == 1
+                );
             }
             elseif($data['tipo'] == 'Gato') {
-                return new Gato($data['nombre'], $data['edad'], $data['color_pelo'], $data['requiere_medicacion']);
+                $animal = new Gato(
+                    $data['nombre'], 
+                    $data['edad'], 
+                    $data['color_pelo'], 
+                    $data['requiere_medicacion'] == 1
+                );
             }
             elseif($data['tipo'] == 'Ave') {
-                return new Ave($data['nombre'], $data['edad'], $data['puede_volar'], $data['tamanio']);
+                $animal = new Ave(
+                    $data['nombre'], 
+                    $data['edad'], 
+                    $data['puede_volar'] == 1, 
+                    $data['tamanio']
+                );
+            }
+
+            // 2. Si se creó el objeto, le inyectamos los datos clave
+            if ($animal) {
+                $animal->setId($data['id_animal']);
+                $animal->setEstado($data['estado']); // Recuperamos si ya está adoptado
+                return $animal;
             }
         }
         return null;
@@ -115,9 +139,17 @@ class Refugio
     public function buscarPersonaPorId($id) {
         global $database;
         $data = $database->get("personas", "*", ["id_persona" => $id]);
-        if($data) {
-            $p = new Persona($data['nombre'], $data['dni'], $data['telefono']);
-            $p->setId($data['id_persona']); // Importante setear el ID real
+        
+        if($data)
+        {
+            $p = new Persona(
+                $data['nombre'], 
+                $data['apellido'], 
+                $data['dni'], 
+                $data['telefono']
+            );
+            
+            $p->setId($data['id_persona']); 
             return $p;
         }
         return null;
@@ -167,23 +199,30 @@ class Refugio
 
     public function obtenerAdoptanteDeAnimal($idAnimal) {
         global $database;
-        // Verificamos primero el estado
+        
+        // Buscamos el animal (Acá ya tenemos su nombre en $animal['nombre'])
         $animal = $database->get("animales", "*", ["id_animal" => $idAnimal]);
         
-        if ($animal['estado'] !== 'Adoptado') {
-            return "El animal no está adoptado.";
+        if (!$animal || $animal['estado'] !== 'Adoptado') {
+            return "El animal no figura como adoptado o no existe.";
         }
 
-        // Buscamos quién lo tiene
-        $resultado = $database->get("adopciones", 
+        // Buscamos a la persona
+        $persona = $database->get("adopciones", 
             [
                 "[>]personas" => ["id_persona" => "id_persona"]
             ],
-            "personas.nombre",
+            ["personas.nombre", "personas.apellido"], 
             ["id_animal" => $idAnimal]
         );
-        
-        return $resultado ? $resultado : "Error al buscar adoptante.";
+
+        // Agregamos el nombre del animal al array de la persona
+        if ($persona) {
+            $persona['nombre_animal'] = $animal['nombre'];
+            return $persona;
+        }
+
+        return "Error al buscar datos de adopción.";
     }
 
     public function totalPorTipo() {
