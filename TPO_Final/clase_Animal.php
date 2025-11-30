@@ -1,7 +1,5 @@
 <?php
 
-use Medoo\Medoo;
-
 abstract class Animal //Definimos la clase padre abstracta Animal
 {
     protected $idAnimal;

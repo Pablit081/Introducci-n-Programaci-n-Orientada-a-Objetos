@@ -5,7 +5,7 @@ require_once 'funciones.php';
 function registrar_Adopcion($refugio) {
     echo "\n--- ❤️ REGISTRAR NUEVA ADOPCIÓN ❤️ ---\n";
 
-    listarTodosLosAnimales($refugio);
+    listarAnimales($refugio);
     // 1. BUSCAR ANIMAL
     echo "Ingrese el ID del Animal a adoptar: ";
     $idAnimal = trim(fgets(STDIN));

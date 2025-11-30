@@ -1,12 +1,11 @@
 <?php
-/* El usuario intenta crear una new Adopcion($miPerro, $miPersona).
-/* El Constructor de Adopcion pregunta: ¿$miPerro->esAdoptable?.
-/* Si el perro mordió a alguien (devuelve false), la adopción falla y tira error.
-/* Si es true:
-/* Guarda los IDs.
-/* Llama a $miPerro->setEstado('adoptado').
-/* Llama a $miPersona->adoptarAnimal($miPerro) (que suma +1 al contador).
-*/
+// El usuario intenta crear una new Adopcion($miPerro, $miPersona).
+// El Constructor de Adopcion pregunta: ¿$miPerro->esAdoptable?.
+// Si el perro mordió a alguien (devuelve false), la adopción falla y tira error.
+// Si es true:
+// Guarda los IDs.
+// Llama a $miPerro->setEstado('adoptado').
+// Llama a $miPersona->adoptarAnimal($miPerro) (que suma +1 al contador).
 
 require_once 'clase_Animal.php'; // Incluimos la clase Animal para usarla en la colección
 require_once 'clase_Persona.php'; // Incluimos la clase Persona para usarla en la colección
@@ -36,7 +35,6 @@ class Adopcion {
         $this->fechaAdopcion = date('Y-m-d'); //Fecha actual en formato YYYY-MM-DD
     
         $animal-> setEstado("Adoptado"); // Cambiamos el estado del animal a "Adoptado"
-        $persona-> adoptarAnimal($animal); // Agregamos el animal a la colección de animales adoptados (array) por la persona
     
     }
 // Getters y Setters
