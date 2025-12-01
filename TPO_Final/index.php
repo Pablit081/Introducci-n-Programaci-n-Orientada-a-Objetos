@@ -18,14 +18,14 @@ require_once 'consultas_Extras.php';
 // 1. Instanciar el Refugio
 $refugio = new Refugio();
 
-//mensajeBienvenida();
+mensajeBienvenida();
 
 // Bucle infinito del menú
 while (true)
 {
     mostrarMenu();
 
-    echo "Ingrese una opción: ";
+    echo textoResaltado("Ingrese una opción: ");
     $opcion = trim(fgets(STDIN));
 
     switch ($opcion) {

@@ -4,7 +4,7 @@ require_once 'funciones.php'; // Usamos traducirBooleano
 
 function listarTodasLasPersonas($refugio)
 {
-    echo "\n--- 📋 LISTADO COMPLETO DE PERSONAS ---\n";
+    echo textoH1("\n--- 📋 LISTADO COMPLETO DE PERSONAS ---\n\n");
     
     // Pedimos los datos
     $lista = $refugio->listarPersonas();
@@ -12,7 +12,7 @@ function listarTodasLasPersonas($refugio)
     // Si la lista está vacía, avisamos
     if (empty($lista))
     {
-        echo "📂 No hay personas registradas en el sistema.\n";
+        echo textoError("📂 No hay personas registradas en el sistema.\n");
         return;
     }
 
@@ -20,7 +20,7 @@ function listarTodasLasPersonas($refugio)
     foreach ($lista as $p)
     {
         echo "--------------------------------------------------------\n";
-        echo "[ID: " . $p['id_persona'] . "] " . $p['nombre'] ." " . $p['apellido'] ." (DNI: " . $p['dni'] . ")\n";
+        echo "[ID: " . $p['id_persona'] . "] " . textoH1($p['nombre']) ." " . textoH1($p['apellido']) ." (DNI: " . $p['dni'] . ")\n";
         echo "  📞 Tel:" . $p['telefono'] . " | 🐾 Adoptados:" . $p['cantidad_animales_adoptados'] . "\n";
     }
     echo "--------------------------------------------------------\n";

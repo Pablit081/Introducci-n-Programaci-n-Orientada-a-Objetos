@@ -11,18 +11,18 @@ function listarAnimales($refugio, $filtro = 'Todos')
     // DECIDIMOS QUÉ LISTA TRAER SEGÚN EL FILTRO
     if ($filtro === 'Disponible')
     {
-        echo "\n--- 🟢 LISTADO DE ANIMALES DISPONIBLES ---\n";
+        echo textoH1("\n--- 🟢 LISTADO DE ANIMALES DISPONIBLES ---\n\n");
         $lista = $refugio->listarDisponibles();
     } 
     elseif ($filtro === 'Adoptado')
     {
-        echo "\n--- 🏠 LISTADO DE ANIMALES ADOPTADOS ---\n";
+        echo textoH1("\n--- 🏠 LISTADO DE ANIMALES ADOPTADOS ---\n\n");
         $lista = $refugio->listarAdoptados();
     } 
     else
     {
         // Si no es ni uno ni el otro, trae TODO
-        echo "\n--- 📋 LISTADO COMPLETO DE ANIMALES ---\n";
+        echo textoH1("\n--- 📋 LISTADO COMPLETO DE ANIMALES ---\n\n");
         $lista = $refugio->listarAnimales();
     }
     
@@ -37,7 +37,7 @@ function listarAnimales($refugio, $filtro = 'Todos')
     foreach ($lista as $a)
     {
         echo "-------------------------------------------------\n";
-        echo "[ID: " . $a['id_animal'] . "] " . $a['nombre'] . " (" . $a['tipo'] . ")\n";
+        echo "[ID: " . $a['id_animal'] . "] " . textoH1($a['nombre']) . " (" . $a['tipo'] . ")\n";
         echo "   Estado: " . $a['estado'] . " | Edad: " . $a['edad'] . " años\n";
 
         // Detectamos tipo para mostrar detalles específicos

@@ -3,10 +3,10 @@ require_once 'funciones.php';
 
 function agregar_Animal($refugio) 
 {
-    echo "\n--- Seleccione la especie ---\n";
-    echo "1 = Perro 🐶\n";
-    echo "2 = Gato 🐱\n";
-    echo "3 = Ave 🐦\n";
+    echo textoH1 ("\n--- Seleccione la especie ---\n\n");
+    echo textoOpciones("1 ") . " = Perro 🐶\n";
+    echo textoOpciones("2 ") . " = Gato 🐱\n";
+    echo textoOpciones("3 ") . " = Ave 🐦\n\n";
     $tipo = pedirOpcion("¿Qué tipo de animal?", ['1', '2', '3']);
 
     // Atributos comunes a todos los animales
@@ -21,7 +21,7 @@ function agregar_Animal($refugio)
         
         $nuevoAnimal = new Perro($nom, $edad, $raza, $obe, $agr);
         $refugio->agregarAnimal($nuevoAnimal);
-        echo "✅ ¡Perro agregado con éxito!\n";
+        echo textoH1("\n✅ ¡Perro agregado con éxito!\n");
 
     } elseif ($tipo == '2') { // Gato
         echo "Color de Pelo: "; $color = trim(fgets(STDIN));
@@ -29,19 +29,19 @@ function agregar_Animal($refugio)
         
         $nuevoAnimal = new Gato($nom, $edad, $color, $med);
         $refugio->agregarAnimal($nuevoAnimal);
-        echo "✅ ¡Gato agregado con éxito!\n";
+        echo textoH1("\n✅ ¡Gato agregado con éxito!\n");
     
     } elseif ($tipo == '3') { // Ave
         $vuela = pedirConfirmacion("¿Puede volar?");
-        echo "\n--- Seleccione el tamaño ---\n";
-        echo "P = Pequeño\n";
-        echo "M = Mediano\n";
-        echo "G = Grande\n";
+        echo textoH1("\n--- Seleccione el tamaño ---\n");
+        echo textoOpciones("P ") . " = Pequeño\n";
+        echo textoOpciones("M ") . " = Mediano\n";
+        echo textoOpciones("G ") . " = Grande\n";
         $tam = pedirOpcion("Tamaño", ['P', 'M', 'G']);
         
         $nuevoAnimal = new Ave($nom, $edad, $vuela, $tam);
         $refugio->agregarAnimal($nuevoAnimal);
-        echo "✅ ¡Ave agregada con éxito!\n";
+        echo textoH1("\n✅ ¡Ave agregada con éxito!\n");
     }
 }
 ?>

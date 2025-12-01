@@ -15,12 +15,12 @@ function pedirConfirmacion($pregunta) {
     
     // Preguntar hasta que responda algo válido
     do {
-        echo $pregunta . " (s/n): ";
+        echo $pregunta . textoH1(" (s/n): ");
         // Normalizamos la entrada (minúsculas y sin espacios)
         $input = strtolower(trim(fgets(STDIN))); 
         // Verificamos si lo que escribió coincide con alguna opción (ignorando mayúsculas)
         if (!in_array($input, $validos)) {
-            echo "⚠️  Por favor, responda 'si/yes' o 'no' (o 's'/'n' o 'y'/'n').\n";
+            echo textoError("⚠️  Por favor, responda 'si/yes' o 'no' (o 's'/'n' o 'y'/'n').\n");
         }
     } while (!in_array($input, $validos)); // El bucle se repite MIENTRAS no encontramos la opción.
 
@@ -41,7 +41,7 @@ function pedirOpcion($pregunta, $opcionesValidas)
 
     do
     {
-        echo $pregunta . " (" . $opcionesTexto . "): ";
+        echo $pregunta . textoH1(" (" . $opcionesTexto . "): ");
         $input = trim(fgets(STDIN));
         
         // Verificamos si lo que escribió coincide con alguna opción (ignorando mayúsculas)
@@ -56,7 +56,7 @@ function pedirOpcion($pregunta, $opcionesValidas)
         }
         if (!$encontrado) // Si no encontramos la opción
         {
-            echo "⚠️  Por favor, responda una de las opciones válidas " . $opcionesTexto .".\n";
+            echo textoError("⚠️  Por favor, responda una de las opciones válidas " . $opcionesTexto .".\n");
         }
     } while (!$encontrado); // El bucle se repite MIENTRAS no encontramos la opción.
     
@@ -71,19 +71,19 @@ function pedirDNI()
     $dni = "";
     do
     {
-        echo "DNI (8 números, sin puntos ni espacios): ";
+        echo textoH1("Ingrese DNI"). " (8 números, sin puntos ni espacios): ";
         $dni = trim(fgets(STDIN));
 
         // 1. Validar que NO esté vacío y que sean SOLO NÚMEROS
         // ctype_digit devuelve true solo si todos los caracteres son dígitos (0-9)
         if (!ctype_digit($dni)) {
-            echo "⚠️  Error: Ingrese solo números (sin puntos ni letras).\n";
+            echo textoError("⚠️  Error: Ingrese solo números (sin puntos ni letras).\n");
             continue; // Fuerza a preguntar de nuevo sin evaluar la longitud todavía
         }
 
         // 2. Validar LONGITUD EXACTA
         if (strlen($dni) !== 8) {
-            echo "⚠️  Error: El DNI debe tener exactamente 8 dígitos.\n";
+            echo textoError("⚠️  Error: El DNI debe tener exactamente 8 dígitos.\n");
         }
 
     } while (!ctype_digit($dni) || strlen($dni) !== 8);
@@ -105,13 +105,13 @@ function pedirTelefono()
         // 1. Validar que NO esté vacío y que sean SOLO NÚMEROS
         // ctype_digit devuelve true solo si todos los caracteres son dígitos (0-9)
         if (!ctype_digit($telefono)) {
-            echo "⚠️  Error: Ingrese solo números.";
+            echo textoError("⚠️  Error: Ingrese solo números.");
             continue; // Fuerza a preguntar de nuevo sin evaluar la longitud todavía
         }
 
         // 2. Validar LONGITUD EXACTA
         if (strlen($telefono) !== 10) {
-            echo "⚠️  Error: El teléfono debe tener exactamente 10 dígitos.";
+            echo textoError("⚠️  Error: El teléfono debe tener exactamente 10 dígitos.");
         }
 
     } while (!ctype_digit($telefono) || strlen($telefono) !== 10); //
@@ -142,23 +142,22 @@ function limpiarPantalla()
 function mostrarMenu() 
 {
     limpiarPantalla();
-    echo "\n";
-    echo "*********************************************************\n";
-    echo "*                                                       *\n";
-    echo "*   🐾 SISTEMA DE GESTIÓN: REFUGIO PATITAS FELICES 🐾   *\n";
-    echo "*                                                       *\n";
-    echo "*********************************************************\n\n";
-    echo "1. Agregar Animal ➕ (🐶 Perro - 🐱 Gato - 🐦 Ave)\n";
-    echo "2. Agregar Persona ➕ 👤\n";
-    echo "3. Listar TODOS los animales 📋🐶🐱🐦\n";
-    echo "4. Listar TODAS las personas 📋👥\n";
-    echo "5. Registrar una ADOPCIÓN ❤️\n";
-    echo "6. Mostrar Animales ADOPTADOS 🏠\n";
-    echo "7. Mostrar Animales DISPONIBLES 🟢\n";
-    echo "8. Ver animales adoptados por una persona (DNI) 🔍\n";
-    echo "9. Ver quién adoptó a un animal (ID Animal) 🔍\n";
-    echo "10. Ver Totales por Tipo de Animal 📊\n";
-    echo "0. Salir 👋\n";
+    echo textoH1("*********************************************************\n");
+    echo textoH1("*                                                       *\n");
+    echo textoH1("*   🐾 SISTEMA DE GESTIÓN: REFUGIO PATITAS FELICES 🐾   *\n");
+    echo textoH1("*                                                       *\n");
+    echo textoH1("*********************************************************\n\n");
+    echo textoOpciones("1.") . " Agregar Animal ➕ (🐶 Perro - 🐱 Gato - 🐦 Ave)\n";
+    echo textoOpciones("2.") . " Agregar Persona ➕ 👤\n";
+    echo textoOpciones("3.") . " Listar TODOS los animales 📋🐶🐱🐦\n";
+    echo textoOpciones("4.") . " Listar TODAS las personas 📋👥\n";
+    echo textoOpciones("5.") . " Registrar una ADOPCIÓN ❤️\n";
+    echo textoOpciones("6.") . " Mostrar Animales ADOPTADOS 🏠\n";
+    echo textoOpciones("7.") . " Mostrar Animales DISPONIBLES 🟢\n";
+    echo textoOpciones("8.") . " Ver animales adoptados por una persona (DNI) 🔍\n";
+    echo textoOpciones("9.") . " Ver quién adoptó a un animal (ID Animal) 🔍\n";
+    echo textoOpciones("10.") . " Ver Totales por Tipo de Animal 📊\n";
+    echo textoOpciones("0.") . " Salir 👋\n";
     echo "--------------------------------------------------------\n";
 }
 
@@ -242,11 +241,43 @@ function mensajeBienvenida(): void
     foreach ($tareas as $tarea) {
         // Imprimimos la tarea en verde tenue
         echo "   \033[0;32m[OK]\033[0m " . $tarea . "\n";
-        usleep(3000000); // Pausa de 3 segundos por tarea
+        usleep(700000); // Pausa de 3 segundos por tarea
     }
     
     sleep(1); // Una pausa final de 1 segundo para leer "Sistema Listo"
     limpiarPantalla(); // Limpiamos todo para mostrar el menú
+}
+
+function textoH1($texto) {
+    // 1 = Negrita, 37 = Blanco
+    $estilo = "\033[1;37m";
+    $reset = "\033[0m";
+    
+    return $estilo . $texto . $reset;
+}
+
+function textoOpciones($texto) {
+    // 1 = Negrita, 31 = Rojo
+    $estilo = "\033[1;31m";
+    $reset = "\033[0m";
+    
+    return $estilo . $texto . $reset;
+}
+
+function textoResaltado($texto) {
+    // 1 = Negrita, 5 = Parpadeo, 35 = Magenta
+    $estilo = "\033[1;5;35m";
+    $reset = "\033[0m";
+    
+    return $estilo . $texto . $reset;
+}
+
+function textoError($texto) {
+    // 1 = Negrita, 5 = Parpadeo, 31 = Rojo
+    $estilo = "\033[1;5;31m";
+    $reset = "\033[0m";
+    
+    return $estilo . $texto . $reset;
 }
 ?>
 
