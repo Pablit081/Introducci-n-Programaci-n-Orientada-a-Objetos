@@ -8,7 +8,7 @@ class Refugio
 {
     // Ya no necesitamos arrays privados. Usaremos la variable global $database.
 
-    // --- 1. AGREGAR ANIMALES (CORREGIDO) ---
+    // --- 1. AGREGAR ANIMALES ---
     public function agregarAnimal(Animal $animal) 
     {
         global $database; 
@@ -22,17 +22,20 @@ class Refugio
         ];
 
         // 2. Detectamos el tipo y agregamos los datos específicos al array
-        if ($animal instanceof Perro) {
+        if ($animal instanceof Perro)
+        {
             $datos["raza"] = $animal->getRaza();
             // Convertimos el booleano a 1 o 0 para la BD
             $datos["sabe_obediencia"] = $animal->getSabeObediencia() ? 1 : 0;
             $datos["antecedentes_agresion"] = $animal->getAntecedentesAgresion() ? 1 : 0;
         } 
-        elseif ($animal instanceof Gato) {
+        elseif ($animal instanceof Gato)
+        {
             $datos["color_pelo"] = $animal->getColorPelo();
             $datos["requiere_medicacion"] = $animal->getRequiereMedicacion() ? 1 : 0;
         } 
-        elseif ($animal instanceof Ave) {
+        elseif ($animal instanceof Ave)
+        {
             $datos["puede_volar"] = $animal->getPuedeVolar() ? 1 : 0;
             $datos["tamanio"] = $animal->getTamanio();
         }
@@ -54,7 +57,7 @@ class Refugio
     public function agregarPersona(Persona $persona) 
     {
         global $database;
-        $database->insert("personas", [
+        $database->insert("personas",[
             "nombre" => $persona->getNombrePersona(),
             "apellido" => $persona->getApellidoPersona(),
             "dni" => $persona->getDniPersona(),
@@ -78,29 +81,34 @@ class Refugio
         return $database->select("personas", "*");
     }
 
-    public function listarDisponibles() {
+    public function listarDisponibles()
+    {
         global $database;
         return $database->select("animales", "*", ["estado" => "Disponible"]);
     }
 
-    public function listarAdoptados() {
+    public function listarAdoptados()
+    {
         global $database;
         return $database->select("animales", "*", ["estado" => "Adoptado"]);
     }
 
     // --- 4. BUSQUEDAS ---
 
-    public function buscarAnimalPorId($id) {
+    public function buscarAnimalPorId($id)
+    {
         global $database;
         // Buscamos en la BD por ID
         $data = $database->get("animales", "*", ["id_animal" => $id]);
         
-        if($data) {
+        if($data)
+        {
             $animal = null;
 
             // 1. Reconstruimos el objeto según su tipo (Hidratación)
             // Importante: Convertimos los 1/0 de la BD a true/false para el constructor
-            if($data['tipo'] == 'Perro') {
+            if($data['tipo'] == 'Perro')
+            {
                 $animal = new Perro(
                     $data['nombre'], 
                     $data['edad'], 
@@ -109,7 +117,8 @@ class Refugio
                     $data['antecedentes_agresion'] == 1
                 );
             }
-            elseif($data['tipo'] == 'Gato') {
+            elseif($data['tipo'] == 'Gato')
+            {
                 $animal = new Gato(
                     $data['nombre'], 
                     $data['edad'], 
@@ -117,7 +126,8 @@ class Refugio
                     $data['requiere_medicacion'] == 1
                 );
             }
-            elseif($data['tipo'] == 'Ave') {
+            elseif($data['tipo'] == 'Ave')
+            {
                 $animal = new Ave(
                     $data['nombre'], 
                     $data['edad'], 
@@ -127,7 +137,8 @@ class Refugio
             }
 
             // 2. Si se creó el objeto, le inyectamos los datos clave
-            if ($animal) {
+            if ($animal)
+            {
                 $animal->setId($data['id_animal']);
                 $animal->setEstado($data['estado']); // Recuperamos si ya está adoptado
                 return $animal;
@@ -136,7 +147,8 @@ class Refugio
         return null;
     }
 
-    public function buscarPersonaPorId($id) {
+    public function buscarPersonaPorId($id)
+    {
         global $database;
         $data = $database->get("personas", "*", ["id_persona" => $id]);
         
@@ -175,16 +187,17 @@ class Refugio
         );
 
         // 3. Actualizar contador de la persona (opcional, ya que se puede calcular con count)
-        // Pero como tu tabla tiene la columna, la actualizamos:
+        // Pero como la tabla tiene la columna, la actualizamos:
         $database->update("personas", 
             ["cantidad_animales_adoptados[+]" => 1], // Medoo permite incrementar así
             ["id_persona" => $adopcion->getIdPersona()]
         );
     }
     
-    // --- CONSULTAS EXTRA PEDIDAS EN LA IMAGEN ---
+    // --- CONSULTAS EXTRA ---
 
-    public function listarAnimalesPorPersona($dni) {
+    public function listarAnimalesPorPersona($dni)
+    {
         global $database;
         // Join entre animales, adopciones y personas
         return $database->select("adopciones", 
@@ -197,13 +210,15 @@ class Refugio
         );
     }
 
-    public function obtenerAdoptanteDeAnimal($idAnimal) {
+    public function obtenerAdoptanteDeAnimal($idAnimal)
+    {
         global $database;
         
         // Buscamos el animal (Acá ya tenemos su nombre en $animal['nombre'])
         $animal = $database->get("animales", "*", ["id_animal" => $idAnimal]);
         
-        if (!$animal || $animal['estado'] !== 'Adoptado') {
+        if (!$animal || $animal['estado'] !== 'Adoptado')
+        {
             return "El animal no figura como adoptado o no existe.";
         }
 
@@ -217,7 +232,8 @@ class Refugio
         );
 
         // Agregamos el nombre del animal al array de la persona
-        if ($persona) {
+        if ($persona)
+        {
             $persona['nombre_animal'] = $animal['nombre'];
             return $persona;
         }
@@ -225,9 +241,9 @@ class Refugio
         return "Error al buscar datos de adopción.";
     }
 
-    public function totalPorTipo() {
+    public function totalPorTipo()
+    {
         global $database;
-        // SQL puro es más fácil para agrupar a veces: SELECT tipo, COUNT(*) FROM animales GROUP BY tipo
         return $database->query("SELECT tipo, COUNT(*) as cantidad FROM animales GROUP BY tipo")->fetchAll();
     }
 }
