@@ -24,8 +24,7 @@ function agregarPersona($refugio) {
     echo "Apellido: "; 
     $ape = trim(fgets(STDIN));
     
-    echo "Teléfono: "; 
-    $tel = trim(fgets(STDIN));
+    $tel = pedirTelefono(); 
     
     try 
     {
