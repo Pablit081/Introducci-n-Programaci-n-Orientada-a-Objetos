@@ -99,19 +99,19 @@ function pedirTelefono()
     $telefono = "";
     do
     {
-        echo "Teléfono (10 números, sin puntos, sin guiones ni espacios): ";
+        echo "Teléfono (10 números, sin puntos, sin guiones ni espacios): \n";
         $telefono = trim(fgets(STDIN));
 
         // 1. Validar que NO esté vacío y que sean SOLO NÚMEROS
         // ctype_digit devuelve true solo si todos los caracteres son dígitos (0-9)
         if (!ctype_digit($telefono)) {
-            echo textoError("⚠️  Error: Ingrese solo números.");
+            echo textoError("⚠️  Error: Ingrese solo números.") . "\n";
             continue; // Fuerza a preguntar de nuevo sin evaluar la longitud todavía
         }
 
         // 2. Validar LONGITUD EXACTA
         if (strlen($telefono) !== 10) {
-            echo textoError("⚠️  Error: El teléfono debe tener exactamente 10 dígitos.");
+            echo textoError("⚠️  Error: El teléfono debe tener exactamente 10 dígitos.") . "\n";
         }
 
     } while (!ctype_digit($telefono) || strlen($telefono) !== 10); //
