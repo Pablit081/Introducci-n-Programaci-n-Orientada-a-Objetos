@@ -15,8 +15,9 @@ $database = new \Medoo\Medoo([ // "new Medoo" es como decir "Contratar un nuevo 
     'database_type' => 'mysql',
     'database_name' => 'bdpatitasfelices',
     'server' => 'localhost',
-    'username' => 'pabloadmin',
-    'password' => 'Mari@2025'
+    'username' => 'root',
+    'password' => ''
 ]); 
-// Le pasamos sus "credenciales" para que sepa a qué base de datos conectarse.
+// Le pasamos las "credenciales" para que sepa a qué base de datos conectarse.
+// !!!!Recordar que si usamos linux, modificar username y password.
 ?>
