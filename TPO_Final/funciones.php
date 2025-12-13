@@ -142,7 +142,6 @@ function limpiarPantalla()
 function mostrarMenu() 
 {
     limpiarPantalla();
-    
     echo textoH1("*********************************************************\n");
     echo textoH1("*                                                       *\n");
     echo textoH1("*   🐾 SISTEMA DE GESTIÓN: REFUGIO PATITAS FELICES 🐾   *\n");
@@ -203,8 +202,8 @@ function mensajeFinal(): void
 
 function mensajeBienvenida(): void 
 {
-    limpiarPantalla();
-
+    limpiarPantalla(); // Usamos tu función para arrancar limpio
+    
     echo "\n\n";
     
     // 1. DIBUJO DEL LOGO/TITULO
